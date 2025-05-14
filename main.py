@@ -4,7 +4,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler, ContextTypes
 
 # Получение токена из переменной окружения
-TOKEN = os.getenv("8122607442:AAHdSnMj1ONIWEk8qTOdj4pE2hHAbvjQ47M")
+TOKEN = '8122607442:AAHdSnMj1ONIWEk8qTOdj4pE2hHAbvjQ47M'
 CHANNEL_ID = '@qulager_director'
 
 logging.basicConfig(level=logging.INFO)
