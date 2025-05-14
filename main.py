@@ -4,7 +4,7 @@ from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandle
 import logging
 import os
 
-TOKEN = os.environ.get("BOT_TOKEN")
+TOKEN = os.environ.get("8122607442:AAHdSnMj1ONIWEk8qTOdj4pE2hHAbvjQ47M")
 CHANNEL_ID = '@qulager_director'
 
 logging.basicConfig(level=logging.INFO)
