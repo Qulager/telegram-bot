@@ -1,9 +1,11 @@
+import time
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler, ContextTypes
 import logging
+import os
 
-TOKEN = '8122607442:AAHdSnMj1ONIWEk8qTOdj4pE2hHAbvjQ47M'
-CHANNEL_ID = '@qulager_director'  # или ID канала, если он приватный
+TOKEN = os.environ.get("BOT_TOKEN")
+CHANNEL_ID = '@qulager_director'
 
 logging.basicConfig(level=logging.INFO)
 
@@ -41,10 +43,17 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.edit_message_reply_markup(reply_markup=None)
 
 def main():
-    app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(CommandHandler("publish", publish_task))
-    app.add_handler(CallbackQueryHandler(button_handler))
-    app.run_polling()
+    while True:
+        try:
+            app = ApplicationBuilder().token(TOKEN).build()
+            app.add_handler(CommandHandler("publish", publish_task))
+            app.add_handler(CallbackQueryHandler(button_handler))
+            print("Бот запущен...")
+            app.run_polling()
+        except Exception as e:
+            print(f"Ошибка: {e}")
+            print("Перезапуск через 5 секунд...")
+            time.sleep(5)
 
 if __name__ == "__main__":
     main()
