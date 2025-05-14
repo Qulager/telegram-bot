@@ -1,13 +1,16 @@
-import time
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler, ContextTypes
 import logging
 import os
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler, ContextTypes
 
-TOKEN = '8122607442:AAHdSnMj1ONIWEk8qTOdj4pE2hHAbvjQ47M'
+# Получение токена из переменной окружения
+TOKEN = os.getenv("8122607442:AAHdSnMj1ONIWEk8qTOdj4pE2hHAbvjQ47M")
 CHANNEL_ID = '@qulager_director'
 
 logging.basicConfig(level=logging.INFO)
+
+# Выводим значение переменной окружения PORT
+print(f"PORT = {os.getenv('PORT')}")
 
 async def publish_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type != "private":
@@ -43,17 +46,11 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.edit_message_reply_markup(reply_markup=None)
 
 def main():
-    while True:
-        try:
-            app = ApplicationBuilder().token(TOKEN).build()
-            app.add_handler(CommandHandler("publish", publish_task))
-            app.add_handler(CallbackQueryHandler(button_handler))
-            print("Бот запущен...")
-            app.run_polling()
-        except Exception as e:
-            print(f"Ошибка: {e}")
-            print("Перезапуск через 5 секунд...")
-            time.sleep(5)
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("publish", publish_task))
+    app.add_handler(CallbackQueryHandler(button_handler))
+    logging.info("Бот запущен...")
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
